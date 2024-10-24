@@ -1,37 +1,36 @@
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
-import { useFonts } from 'expo-font';
-import { Stack } from 'expo-router';
-import * as SplashScreen from 'expo-splash-screen';
-import { useEffect } from 'react';
-import 'react-native-reanimated';
 
-import { useColorScheme } from '@/hooks/useColorScheme';
-
-// Prevent the splash screen from auto-hiding before asset loading is complete.
-SplashScreen.preventAutoHideAsync();
+import { Stack, useGlobalSearchParams, useLocalSearchParams, usePathname, useRouter } from "expo-router";
+import { useEffect, useState } from "react";
+import { View } from "react-native";
 
 export default function RootLayout() {
-  const colorScheme = useColorScheme();
-  const [loaded] = useFonts({
-    SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
-  });
-
+  const params = useGlobalSearchParams();
+  const path = usePathname();
+  const [categoryTitle,setCategoryTitle] = useState<string>()
   useEffect(() => {
-    if (loaded) {
-      SplashScreen.hideAsync();
+    if(path.includes("category-create")){
+      setCategoryTitle(`${params.id?"Редагувати":"Додати"} категорію`)
     }
-  }, [loaded]);
-
-  if (!loaded) {
-    return null;
-  }
-
+    
+  }, [params]);
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="+not-found" />
+    <View style={{ flex: 1 }}>
+      <Stack screenOptions={{
+        headerStyle: {
+          backgroundColor: '#f4511e',
+        },
+        headerTintColor: '#fff',
+        headerTitleStyle: {
+          fontWeight: 'bold',
+        },
+      }}>
+        <Stack.Screen
+          name="index"
+          options={{ title: "Kатегорії" }} />
+        <Stack.Screen
+          name="category-create"
+          options={{ title: categoryTitle }} />
       </Stack>
-    </ThemeProvider>
+    </View>
   );
 }
