@@ -14,7 +14,7 @@ export default function RootLayout() {
     
   }, [params]);
   return (
-    <View style={{ flex: 1 }}>
+    <View  className="flex-1">
       <Stack screenOptions={{
         headerStyle: {
           backgroundColor: '#f4511e',

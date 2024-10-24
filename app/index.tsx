@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import { Button, ScrollView, View } from "react-native";
 import axios from 'axios';
 import { CategoryCard } from "@/components/category-card";
-import { StyleSheet } from 'react-native';
 import { useRouter } from "expo-router";
 
 
@@ -31,8 +30,8 @@ const setCategoryData = async()=>{
 
   return (
     <View className="flex-1">
-      <ScrollView >
-        <View className="flex flex-row flex-wrap justify-between">
+      <ScrollView style={{width:"100%" }} >
+        <View style={{width:"93%" ,alignSelf:"center"}} className=" flex flex-row flex-wrap justify-between">
           {data.map(x => <CategoryCard onDelete={onDelete} key={x.id} category={x} />)}
         </View>
       </ScrollView>
