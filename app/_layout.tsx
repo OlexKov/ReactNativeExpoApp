@@ -1,8 +1,9 @@
 
 import { Stack, useGlobalSearchParams, usePathname} from "expo-router";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { View } from "react-native";
 import '../global.css'
+import FlashMessage from "react-native-flash-message";
 
 export default function RootLayout() {
   const params = useGlobalSearchParams();
@@ -15,8 +16,9 @@ export default function RootLayout() {
 
   }, [params]);
   return (
+    <>
     <View className="flex-1">
-      <Stack screenOptions={{
+        <Stack screenOptions={{
         headerStyle: {
           backgroundColor: '#f4511e',
         },
@@ -32,6 +34,10 @@ export default function RootLayout() {
           name="category-create"
           options={{ title: categoryTitle }} />
       </Stack>
+     
     </View>
+    <FlashMessage position="bottom" />
+    </>
+    
   );
 }

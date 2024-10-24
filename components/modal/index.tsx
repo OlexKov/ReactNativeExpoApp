@@ -1,4 +1,3 @@
-import React, { useEffect, useState } from 'react';
 import { Modal, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 
@@ -10,8 +9,8 @@ interface ConfirmationCardProps{
 }
 export const Confirmation: React.FC<ConfirmationCardProps> = ({ title,isVisible, onConfirm,onCancel}): React.JSX.Element => {
        
-    const confirmAction = () => onCancel();
-    const cancelAction = () =>  onConfirm()
+    const confirmAction =  async() => await onConfirm();
+    const cancelAction = () => onCancel();
     return(
         <Modal
         animationType="fade" // Анімація відкриття
