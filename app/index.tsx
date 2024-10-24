@@ -7,6 +7,7 @@ import { useRouter } from "expo-router";
 
 
 
+
 export default function Categories() {
   const [data, setData] = useState<Category[]>([]);
   const router = useRouter();
