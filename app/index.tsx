@@ -23,17 +23,17 @@ export default function Categories() {
     if (result.status === 200) {
       await setCategoryData()
       showMessage({
-          message: "Категорія успішно видалена",
-          type: "success",
+        message: "Категорія успішно видалена",
+        type: "success",
       });
       router.push('/');
-  }
-  else {
+    }
+    else {
       showMessage({
-          message: "Сталася помилка при видаленні категорії",
-          type: "danger",
+        message: "Сталася помилка при видаленні категорії",
+        type: "danger",
       });
-  }
+    }
   }
 
   const setCategoryData = async () => {
@@ -41,9 +41,8 @@ export default function Categories() {
     if (result.status === 200) {
       setData(result.data)
     }
-    
-  }
 
+  }
 
   return (
     <View className="flex-1">

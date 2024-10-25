@@ -5,7 +5,7 @@ import { useForm, Controller } from 'react-hook-form';
 import { useEffect, useState } from "react";
 import { Category } from "@/models/Category";
 import * as ImagePicker from 'expo-image-picker';
-import axios, { AxiosError, AxiosResponse } from "axios";
+import axios, { AxiosResponse } from "axios";
 const noImage = require('../assets/images/noimage.jpg');
 import { showMessage } from "react-native-flash-message";
 
@@ -66,7 +66,6 @@ export default function CategoryCreate() {
                     'Content-Type': 'multipart/form-data'
                 }
             });
-
         }
         if (result && result.status === 200) {
             showMessage({
