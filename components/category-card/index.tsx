@@ -33,13 +33,13 @@ export const CategoryCard: React.FC<CategoryCardProps> = ({ category, onDelete =
                 style={{width:"100%",height:"auto", aspectRatio: "14/10" }}
                 resizeMode="cover"
                 source={category.image?{ uri: `http://3.72.67.233:5088/images/200_${category.image}` }:noImage} />
-            <View  style={{ display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
-                <TouchableOpacity style={{ alignSelf: "center", marginHorizontal: 5 }} onPress={() => setModalVisible(true)}>
+            <View className=' flex flex-row justify-between'>
+                <TouchableOpacity className=' self-center mx-1'  onPress={() => setModalVisible(true)}>
                     <MaterialIcons name="delete-forever" size={24} color="red" />
                 </TouchableOpacity>
 
                 <Text style={[styles.cardText]}>{category.name}</Text>
-                <TouchableOpacity style={{ alignSelf: "center", marginHorizontal: 5 }} onPress={() => router.push(`/category-create?id=${category.id}`)}>
+                <TouchableOpacity className=' self-center mx-2' onPress={() => router.push(`/category-create?id=${category.id}`)}>
                     <MaterialIcons name="edit-square" size={24} color="green" />
                 </TouchableOpacity>
             </View>
@@ -49,8 +49,7 @@ export const CategoryCard: React.FC<CategoryCardProps> = ({ category, onDelete =
 
 const styles = StyleSheet.create({
     card: {
-        width: "46%",
-        margin: 5,
+        width: "48%",
         backgroundColor: "lightgray",
         elevation: 5,
         borderWidth: 1,
@@ -61,7 +60,8 @@ const styles = StyleSheet.create({
     },
     cardText: {
         margin: 10,
-        alignSelf: "center"
+        alignSelf: "center",
+        flexShrink:1
 
     }
 });

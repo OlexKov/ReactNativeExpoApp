@@ -47,7 +47,7 @@ export default function Categories() {
   return (
     <View className="flex-1">
       <ScrollView style={{ width: "100%" }} >
-        <View style={{ width: "93%", alignSelf: "center" }} className=" flex flex-row flex-wrap justify-between">
+        <View style={{ width: "93%", alignSelf: "center" }} className=" my-4 gap-4 flex flex-row flex-wrap justify-between">
           {data.map(x => <CategoryCard onDelete={onDelete} key={x.id} category={x} />)}
         </View>
       </ScrollView>
