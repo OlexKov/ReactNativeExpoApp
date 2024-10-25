@@ -49,7 +49,7 @@ export const CategoryCard: React.FC<CategoryCardProps> = ({ category, onDelete =
 
 const styles = StyleSheet.create({
     card: {
-        width: "48%",
+        width: "47%",
         backgroundColor: "lightgray",
         elevation: 5,
         borderWidth: 1,

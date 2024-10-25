@@ -1,9 +1,9 @@
 import { Category } from "@/models/Category";
-import { useEffect, useState } from "react";
+import {  useState } from "react";
 import { Button, ScrollView, View } from "react-native";
 import axios from 'axios';
 import { CategoryCard } from "@/components/category-card";
-import { useRouter } from "expo-router";
+import { useFocusEffect,  useRouter } from "expo-router";
 import { showMessage } from "react-native-flash-message";
 
 const base_url:string = "http://3.72.67.233:5088" ;
@@ -15,9 +15,9 @@ export default function Categories() {
   const handlePress = () => {
     router.push(`/category-create`)
   };
-  useEffect(() => {
+  useFocusEffect(() => {
     (async () => { await setCategoryData() })()
-  }, [])
+  })
   const onDelete = async (id: number) => {
     const result = await axios.delete(`${base_url}/delete/${id}`);
     if (result.status === 200) {
@@ -26,7 +26,6 @@ export default function Categories() {
         message: "Категорія успішно видалена",
         type: "success",
       });
-      router.push('/');
     }
     else {
       showMessage({

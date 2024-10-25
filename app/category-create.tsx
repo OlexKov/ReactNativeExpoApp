@@ -67,7 +67,7 @@ export default function CategoryCreate() {
                 message: "Категорія успішно збережена",
                 type: "success",
             });
-            router.push('/');
+            router.back();
         }
         else {
             showMessage({
