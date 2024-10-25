@@ -26,7 +26,7 @@ export default function CategoryCreate() {
             (async () => {
                 const result = await axios.get<Category>(`http://3.72.67.233:5088/get/${id}`);
                 if (result.status === 200) {
-                    reset(({ name: result.data.name, description: result.data.description }))
+                    reset(({ name: result.data.name, description: result.data.description || ''}))
                     if (result.data.image) {
                         setImage(`http://3.72.67.233:5088/images/200_${result.data.image}`)
                     }
@@ -48,49 +48,26 @@ export default function CategoryCreate() {
 
         }
         formData.append('name', data.name)
-        formData.append('description', data.description)
+        formData.append('description', data.description || '')
         formData.append('id', id ? `${id}` : "0");
         let result: AxiosResponse | undefined = undefined;
-        try {
-            if (id) {
+        if (id) {
 
-                result = await axios.put(`http://3.72.67.233:5088/update`, formData, {
-                    headers: {
-                        'Content-Type': 'multipart/form-data'
-                    }
-                });
-            }
-            else {
-
-                result = await axios.post(`http://3.72.67.233:5088/create`, formData, {
-                    headers: {
-                        'Content-Type': 'multipart/form-data'
-                    }
-                });
-
-            }
-        } catch (error: any) {
-            if (axios.isAxiosError(error)) {
-                const axiosError = error as AxiosError;
-
-                if (axiosError.response) {
-                    // Сервер відповів з кодом статусу, який виходить за межі діапазону 2xx
-                    console.error('Response error:', axiosError.response);
-                } else if (axiosError.request) {
-                    // Запит був відправлений, але немає відповіді
-                    console.error('Request error:', axiosError.request);
-                } else {
-                    // Щось сталося під час налаштування запиту
-                    console.error('Error:', axiosError.message);
+            result = await axios.put(`http://3.72.67.233:5088/update`, formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
                 }
-            } else {
-                // Помилка, яка не пов'язана з Axios
-                console.error('Non-Axios error:', error);
-            }
+            });
+        }
+        else {
 
+            result = await axios.post(`http://3.72.67.233:5088/create`, formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            });
 
         }
-
         if (result && result.status === 200) {
             showMessage({
                 message: "Категорія успішно збережена",
