@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { Category } from "@/models/Category";
 import * as ImagePicker from 'expo-image-picker';
 import axios, { AxiosResponse } from "axios";
-const noImage = require('../assets/images/noimage.jpg');
+const noImage = require('../../assets/images/noimage.jpg');
 import { showMessage } from "react-native-flash-message";
 import { BASE_URL } from "@/constants/Url";
 

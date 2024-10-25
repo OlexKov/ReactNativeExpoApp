@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Link, router } from 'expo-router'
+import { Link, router, useRouter } from 'expo-router'
 import { View, Text, ScrollView, Dimensions, Image, SafeAreaView } from 'react-native'
 
 //import { images } from '@/constants'
@@ -15,10 +15,11 @@ import FormField from '@/components/form-fields'
 import CustomButton from '@/components/custom-button'
 import { useLoginMutation } from '@/services/accountService'
 
+
 const SignIn = () => {
     const [email, setEmail] = React.useState('')
     const [password, setPassword] = React.useState('')
-
+    const router = useRouter();
      const dispatch = useAppDispatch()
     
      const [login, { isLoading }] = useLoginMutation()
@@ -35,6 +36,7 @@ const SignIn = () => {
         //     console.log(error)
         //     alert(error.data)
         // }
+        router.replace('/(main)')
     }
 
     return (
@@ -73,9 +75,9 @@ const SignIn = () => {
 
                     <View className="flex justify-center pt-5 flex-row gap-2">
                         <Text className="text-sm text-gray-100 font-pregular">Don't have an account?</Text>
-                        {/* <Link href="/sign-up" className="text-sm font-psemibold text-secondary">
+                        <Link href="/" className="text-sm font-psemibold text-secondary">
                             Signup
-                        </Link> */}
+                        </Link> 
                     </View>
                 </View>
             </ScrollView>
