@@ -1,12 +1,12 @@
 import { Category } from "@/models/Category";
-import {  useState } from "react";
-import { Button, ScrollView, View } from "react-native";
+import { useState } from "react";
+import { ActivityIndicator, Button, ScrollView, View } from "react-native";
 import axios from 'axios';
 import { CategoryCard } from "@/components/category-card";
-import { useFocusEffect,  useRouter } from "expo-router";
+import { useFocusEffect, useRouter } from "expo-router";
 import { showMessage } from "react-native-flash-message";
 
-const base_url:string = "http://3.72.67.233:5088" ;
+const base_url: string = "http://3.72.67.233:5088";
 
 
 export default function Categories() {
@@ -43,14 +43,17 @@ export default function Categories() {
   }
 
   return (
-    <View className="flex-1">
-      <ScrollView style={{ width: "100%" }} >
-        <View style={{ width: "93%", alignSelf: "center" }} className=" my-4 gap-4 flex flex-row flex-wrap justify-between">
-          {data.map(x => <CategoryCard onDelete={onDelete} key={x.id} category={x} />)}
-        </View>
-      </ScrollView>
-      <Button title="Додати категорію" onPress={handlePress} />
-    </View>
+    <>{data.length > 0
+      ? <View className="flex-1">
+        <ScrollView style={{ width: "100%" }} >
+          <View style={{ width: "93%", alignSelf: "center" }} className=" my-4 gap-4 flex flex-row flex-wrap justify-between">
+            {data.map(x => <CategoryCard onDelete={onDelete} key={x.id} category={x} />)}
+          </View>
+        </ScrollView>
+        <Button title="Додати категорію" onPress={handlePress} />
+      </View>
+      : <ActivityIndicator className=" mx-auto my-auto" size="large" color="#f4511e" />}
+    </>
   );
 }
 
