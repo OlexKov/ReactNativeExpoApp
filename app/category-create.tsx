@@ -8,8 +8,8 @@ import * as ImagePicker from 'expo-image-picker';
 import axios, { AxiosResponse } from "axios";
 const noImage = require('../assets/images/noimage.jpg');
 import { showMessage } from "react-native-flash-message";
+import { BASE_URL } from "@/constants/Url";
 
-const base_url: string = "http://3.72.67.233:5088";
 const formHeader = {
     headers: {
         'Content-Type': 'multipart/form-data'
@@ -29,11 +29,11 @@ export default function CategoryCreate() {
     useEffect(() => {
         if (id) {
             (async () => {
-                const result = await axios.get<Category>(`${base_url}/get/${id}`);
+                const result = await axios.get<Category>(`${BASE_URL}/get/${id}`);
                 if (result.status === 200) {
                     reset(({ name: result.data.name, description: result.data.description || '' }))
                     if (result.data.image) {
-                        setImage(`${base_url}/images/200_${result.data.image}`)
+                        setImage(`${BASE_URL}/images/200_${result.data.image}`)
                     }
 
                 }
@@ -57,10 +57,10 @@ export default function CategoryCreate() {
         formData.append('id', id ? `${id}` : "0");
         let result: AxiosResponse | undefined = undefined;
         if (id) {
-            result = await axios.put(`${base_url}/update`, formData, formHeader);
+            result = await axios.put(`${BASE_URL}/update`, formData, formHeader);
         }
         else {
-            result = await axios.post(`${base_url}/create`, formData, formHeader);
+            result = await axios.post(`${BASE_URL}/create`, formData, formHeader);
         }
         if (result && result.status === 200) {
             showMessage({

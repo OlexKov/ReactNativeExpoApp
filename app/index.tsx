@@ -5,9 +5,7 @@ import axios from 'axios';
 import { CategoryCard } from "@/components/category-card";
 import { useFocusEffect, useRouter } from "expo-router";
 import { showMessage } from "react-native-flash-message";
-
-const base_url: string = "http://3.72.67.233:5088";
-
+import { BASE_URL } from "@/constants/Url";
 
 export default function Categories() {
   const [data, setData] = useState<Category[]>([]);
@@ -16,10 +14,14 @@ export default function Categories() {
     router.push(`/category-create`)
   };
   useFocusEffect(() => {
-    (async () => { await setCategoryData() })()
+   
+    (async () => {
+       router.push('/(auth)'); 
+       await setCategoryData() 
+      })()
   })
   const onDelete = async (id: number) => {
-    const result = await axios.delete(`${base_url}/delete/${id}`);
+    const result = await axios.delete(`${BASE_URL}/delete/${id}`);
     if (result.status === 200) {
       await setCategoryData()
       showMessage({
@@ -36,7 +38,7 @@ export default function Categories() {
   }
 
   const setCategoryData = async () => {
-    const result = await axios.get<Category[]>(base_url + "/get");
+    const result = await axios.get<Category[]>(BASE_URL + "/get");
     if (result.status === 200) {
       setData(result.data)
     }
