@@ -6,7 +6,7 @@ import { CategoryCard } from "@/components/category-card";
 import { useRouter } from "expo-router";
 import { showMessage } from "react-native-flash-message";
 
-
+const base_url:string = "http://3.72.67.233:5088" ;
 
 
 export default function Categories() {
@@ -19,7 +19,7 @@ export default function Categories() {
     (async () => { await setCategoryData() })()
   }, [])
   const onDelete = async (id: number) => {
-    const result = await axios.delete(`http://3.72.67.233:5088/delete/${id}`);
+    const result = await axios.delete(`${base_url}/delete/${id}`);
     if (result.status === 200) {
       await setCategoryData()
       showMessage({
@@ -37,11 +37,10 @@ export default function Categories() {
   }
 
   const setCategoryData = async () => {
-    const result = await axios.get<Category[]>("http://3.72.67.233:5088/get");
+    const result = await axios.get<Category[]>(base_url + "/get");
     if (result.status === 200) {
       setData(result.data)
     }
-
   }
 
   return (
