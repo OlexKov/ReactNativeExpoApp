@@ -1,8 +1,8 @@
 import { View, Text, TextInput, Button, ScrollView, Image } from "react-native";
 import { StyleSheet } from 'react-native';
-import { useFocusEffect, useLocalSearchParams, useRouter } from 'expo-router';
+import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useForm, Controller } from 'react-hook-form';
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Category } from "@/models/Category";
 import * as ImagePicker from 'expo-image-picker';
 import axios, { AxiosResponse } from "axios";
@@ -26,7 +26,7 @@ export default function CategoryCreate() {
     const { control, handleSubmit, formState: { errors }, reset } = useForm<MyFormData>();
     const [image, setImage] = useState<string | undefined>(undefined);
 
-    useFocusEffect(() => {
+    useEffect(() => {
         if (id) {
             (async () => {
                 const result = await axios.get<Category>(`${base_url}/get/${id}`);
@@ -39,7 +39,7 @@ export default function CategoryCreate() {
                 }
             })()
         }
-    })
+    },[])
 
     const onSubmit = async (data: MyFormData) => {
 
