@@ -3,18 +3,13 @@ import { StyleSheet } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useForm, Controller } from 'react-hook-form';
 import { useEffect, useState } from "react";
-import { Category } from "@/models/Category";
 import * as ImagePicker from 'expo-image-picker';
-import axios, { AxiosResponse } from "axios";
 const noImage = require('../../assets/images/noimage.jpg');
 import { showMessage } from "react-native-flash-message";
-import { BASE_URL,API_URL } from "@/constants/Url";
+import { BASE_URL} from "@/constants/Url";
+import { useAddCategoryMutation, useGetCategoryByIdQuery, useUpdateCategoryMutation } from "@/services/categoryService";
 
-const formHeader = {
-    headers: {
-        'Content-Type': 'multipart/form-data'
-    }
-}
+
 interface MyFormData {
     name: string,
     description: string,
@@ -24,22 +19,20 @@ export default function CategoryCreate() {
     const router = useRouter();
     const { id } = useLocalSearchParams();
     const { control, handleSubmit, formState: { errors }, reset } = useForm<MyFormData>();
+    const { data: category, error } = useGetCategoryByIdQuery(id?.toString() || ' ', {skip: !id});
+
     const [image, setImage] = useState<string | undefined>(undefined);
+    const [addCategory] = useAddCategoryMutation();
+    const [updateCategory] = useUpdateCategoryMutation();
 
     useEffect(() => {
-        if (id) {
-            (async () => {
-                const result = await axios.get<Category>(`${API_URL}/get/${id}`);
-                if (result.status === 200) {
-                    reset(({ name: result.data.name, description: result.data.description || '' }))
-                    if (result.data.image) {
-                        setImage(`${BASE_URL}/images/200_${result.data.image}`)
-                    }
-
-                }
-            })()
+        if (id && !error && category) {
+            reset(({ name: category.name, description: category.description || '' }))
+            if (category.image) {
+                setImage(`${BASE_URL}/images/200_${category.image}`)
+            }
         }
-    },[])
+    }, [category])
 
     const onSubmit = async (data: MyFormData) => {
 
@@ -50,28 +43,26 @@ export default function CategoryCreate() {
                 type: "image/" + image.split('.').pop(),
                 name: image.split('/').pop(),
             } as any);
-
         }
         formData.append('name', data.name)
         formData.append('description', data.description || '')
         formData.append('id', id ? `${id}` : "0");
-        let result: AxiosResponse | undefined = undefined;
-        if (id) {
-            result = await axios.put(`${API_URL}/update`, formData, formHeader);
-        }
-        else {
-            result = await axios.post(`${API_URL}/create`, formData, formHeader);
-        }
-        if (result && result.status === 200) {
+        try {
+            if (id) {
+                await updateCategory(formData).unwrap();
+            }
+            else {
+                await addCategory(formData).unwrap();
+            }
             showMessage({
                 message: "Категорія успішно збережена",
                 type: "success",
             });
             router.back();
         }
-        else {
+        catch (error: any) {
             showMessage({
-                message: "Сталася помилка при збереженні категорії",
+                message: "Помилка при додавані категорії",
                 type: "danger",
             });
         }

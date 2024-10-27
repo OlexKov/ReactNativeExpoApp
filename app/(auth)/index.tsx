@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link, router, useRouter } from 'expo-router'
 import { View, Text, ScrollView, Dimensions, Image, SafeAreaView } from 'react-native'
 
@@ -6,37 +6,35 @@ import { View, Text, ScrollView, Dimensions, Image, SafeAreaView } from 'react-n
 //import FormField from '@/components/FormField'
 //import CustomButton from '@/components/CustomButton'
 // import { useLoginMutation } from '@/services/accountService'
-// import { saveToSecureStore } from '@/utils/secureStore'
 // import { setCredentials } from '@/redux/slices/userSlice'
-// import { jwtParse } from '@/utils/jwtParser'
 // import { IUser } from '@/interfaces/account'
+import { jwtParse } from '@/utils/jwtParser'
 import { useAppDispatch } from '@/redux/store'
 import FormField from '@/components/form-fields'
 import CustomButton from '@/components/custom-button'
 import { useLoginMutation } from '@/services/accountService'
+import { IUser } from '@/models/account'
+import { setCredentials } from '@/redux/clices/userSlice'
+import { saveToSecureStore } from '@/utils/secureStore'
 
 
 const SignIn = () => {
     const [email, setEmail] = React.useState('')
     const [password, setPassword] = React.useState('')
     const router = useRouter();
-     const dispatch = useAppDispatch()
-    
-     const [login, { isLoading }] = useLoginMutation()
+    const dispatch = useAppDispatch()
+    const [login, { isLoading }] = useLoginMutation()
 
     const submit = async () => {
-        // try {
-        //     const res = await login({ email, password }).unwrap()
-        //
-        //     await saveToSecureStore('authToken', res.token)
-        //     dispatch(setCredentials({ user: jwtParse(res.token) as IUser, token: res.token }))
-        //
-        //     router.replace('/pizzas')
-        // } catch (error: any) {
-        //     console.log(error)
-        //     alert(error.data)
-        // }
-        router.replace('/(main)')
+        try {
+            const res = await login({ email, password }).unwrap()
+            await saveToSecureStore('authToken', res.token)
+            dispatch(setCredentials({ user: jwtParse(res.token) as IUser, token: res.token }))
+            router.replace('/(main)')
+        } catch (error: any) {
+            console.log(error)
+            alert(error.data)
+        }
     }
 
     return (
@@ -77,7 +75,7 @@ const SignIn = () => {
                         <Text className="text-sm text-gray-100 font-pregular">Don't have an account?</Text>
                         <Link href="/" className="text-sm font-psemibold text-secondary">
                             Signup
-                        </Link> 
+                        </Link>
                     </View>
                 </View>
             </ScrollView>
@@ -86,3 +84,5 @@ const SignIn = () => {
 }
 
 export default SignIn
+
+

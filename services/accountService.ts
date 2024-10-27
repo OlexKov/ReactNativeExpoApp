@@ -7,7 +7,7 @@ import { ILogin, ILoginResponse } from '@/models/account'
 
 export const accountApi = createApi({
     reducerPath: 'accountApi',
-    baseQuery: createBaseQuery('accounts'),
+    baseQuery: createBaseQuery('Account'),
     tagTypes: ['Account'],
 
     endpoints: (builder) => ({
@@ -17,6 +17,7 @@ export const accountApi = createApi({
                     url: 'SignIn',
                     method: 'POST',
                     body: data,
+                
                 }
             },
         }),
