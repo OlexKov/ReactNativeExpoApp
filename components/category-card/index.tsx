@@ -4,6 +4,7 @@ import { Image, StyleSheet, Text, TouchableOpacity, View, } from 'react-native';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { useRouter } from 'expo-router';
 import { Confirmation } from '../modal';
+import { BASE_URL } from '@/constants/Url';
 const noImage = require('../../assets/images/noimage.jpg');
 
 
@@ -32,7 +33,7 @@ export const CategoryCard: React.FC<CategoryCardProps> = ({ category, onDelete =
             <Image
                 style={{width:"100%",height:"auto", aspectRatio: "14/10" }}
                 resizeMode="cover"
-                source={category.image?{ uri: `http://3.72.67.233:5088/images/200_${category.image}` }:noImage} />
+                source={category.image?{ uri: `${BASE_URL}/images/200_${category.image}` }:noImage} />
             <View className=' flex flex-row justify-between'>
                 <TouchableOpacity className=' self-center mx-1'  onPress={() => setModalVisible(true)}>
                     <MaterialIcons name="delete-forever" size={24} color="red" />

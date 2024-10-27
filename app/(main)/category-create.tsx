@@ -8,7 +8,7 @@ import * as ImagePicker from 'expo-image-picker';
 import axios, { AxiosResponse } from "axios";
 const noImage = require('../../assets/images/noimage.jpg');
 import { showMessage } from "react-native-flash-message";
-import { BASE_URL } from "@/constants/Url";
+import { BASE_URL,API_URL } from "@/constants/Url";
 
 const formHeader = {
     headers: {
@@ -29,7 +29,7 @@ export default function CategoryCreate() {
     useEffect(() => {
         if (id) {
             (async () => {
-                const result = await axios.get<Category>(`${BASE_URL}/get/${id}`);
+                const result = await axios.get<Category>(`${API_URL}/get/${id}`);
                 if (result.status === 200) {
                     reset(({ name: result.data.name, description: result.data.description || '' }))
                     if (result.data.image) {
@@ -57,10 +57,10 @@ export default function CategoryCreate() {
         formData.append('id', id ? `${id}` : "0");
         let result: AxiosResponse | undefined = undefined;
         if (id) {
-            result = await axios.put(`${BASE_URL}/update`, formData, formHeader);
+            result = await axios.put(`${API_URL}/update`, formData, formHeader);
         }
         else {
-            result = await axios.post(`${BASE_URL}/create`, formData, formHeader);
+            result = await axios.post(`${API_URL}/create`, formData, formHeader);
         }
         if (result && result.status === 200) {
             showMessage({
