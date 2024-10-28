@@ -16,6 +16,7 @@ export const categoryApi = createApi({
                     method: 'GET',
                 }
             },
+            keepUnusedDataFor: 0,
         }),
         getCategoryById: builder.query<Category, string>({
             query: (id) => {
@@ -25,6 +26,7 @@ export const categoryApi = createApi({
 
                 }
             },
+            keepUnusedDataFor: 0,
         }),
         addCategory: builder.mutation<Category, FormData>({
             query: (categoryForm) => ({
@@ -34,7 +36,6 @@ export const categoryApi = createApi({
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }
-
             }),
         }),
         updateCategory: builder.mutation<Category, FormData>({
