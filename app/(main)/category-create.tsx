@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import * as ImagePicker from 'expo-image-picker';
 const noImage = require('../../assets/images/noimage.jpg');
 import { showMessage } from "react-native-flash-message";
-import { BASE_URL, IMAGE_200_URL } from "@/constants/Url";
+import { IMAGE_200_URL } from "@/constants/Url";
 import { useAddCategoryMutation, useGetCategoryByIdQuery, useUpdateCategoryMutation } from "@/services/categoryService";
 
 
@@ -61,7 +61,7 @@ export default function CategoryCreate() {
         }
         catch (error: any) {
             showMessage({
-                message: "Помилка при додавані категорії",
+                message: "Помилка при збереженні категорії",
                 type: "danger",
             });
         }

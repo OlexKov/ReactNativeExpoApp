@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react'
-import { Link, router, useRouter } from 'expo-router'
-import { View, Text, ScrollView, Dimensions, Image, SafeAreaView } from 'react-native'
+import React from 'react'
+import { Link,  useRouter } from 'expo-router'
+import { View, Text, ScrollView, Dimensions, SafeAreaView } from 'react-native'
 
 //import { images } from '@/constants'
 //import FormField from '@/components/FormField'
