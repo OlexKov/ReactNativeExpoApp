@@ -2,9 +2,7 @@
 import { CustomHeader } from "@/components/header";
 import { Stack, useGlobalSearchParams, usePathname, useRouter } from "expo-router";
 import React, { useEffect, useState } from "react";
-import { View, Text, Button } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
-
+import { View } from "react-native";
 
 
 export default function MainLayout() {
@@ -19,7 +17,6 @@ export default function MainLayout() {
 
   }, [params]);
 
-  
   return (
     <>
       <View className="flex-1">
@@ -29,8 +26,5 @@ export default function MainLayout() {
         </Stack>
       </View>
     </>
-
-
-
   );
 }

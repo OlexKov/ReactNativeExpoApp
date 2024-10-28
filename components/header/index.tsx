@@ -28,8 +28,7 @@ export const CustomHeader: React.FC<CustomHeaderCardProps> = ({ title }): React.
         if(!user){
             logout();
         }
-       
-    },[user?.id])
+    },[user])
 
     return (
         <View className="w-full h-[90px] bg-orange-600  pt-7 flex flex-row justify-between items-center">

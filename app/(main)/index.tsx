@@ -37,7 +37,6 @@ export default function Categories() {
     
   }
 
-
   return (
     <>{!isLoading
       ? <View className="flex-1">

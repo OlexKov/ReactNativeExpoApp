@@ -47,10 +47,10 @@ const SignIn = () => {
                     }}>
                     <View className="flex flex-row items-center justify-center">
                         {/* <Image source={images.pizzaLogo} className=" w-[40px] h-[34px]" resizeMode="contain" /> */}
-                        <Text className="mt-2 text-4xl font-pbold font-bold text-secondary">MYPIZZA</Text>
+                        <Text className="mt-2 text-4xl font-pbold font-bold text-secondary">MYAPP</Text>
                     </View>
 
-                    <Text className="text-2xl font-semibold text-white mt-10 font-psemibold">Log in to My Pizza</Text>
+                    <Text className="text-2xl font-semibold text-slate-4Ad00 mt-10 font-psemibold">Log in to My App</Text>
 
                     <FormField
                         placeholder="Enter your email"
@@ -69,10 +69,9 @@ const SignIn = () => {
                         otherStyles="mt-7"
                     />
 
-                    <CustomButton title="Sign In" handlePress={submit} containerStyles="mt-7 w-full" isLoading={isLoading} />
-
+                    <CustomButton title="Sign In" handlePress={submit} containerStyles="mt-7 w-full bg-slate-500" isLoading={isLoading} />
                     <View className="flex justify-center pt-5 flex-row gap-2">
-                        <Text className="text-sm text-gray-100 font-pregular">Don't have an account?</Text>
+                        <Text className="text-sm text-gray-600 font-pregular">Don't have an account?</Text>
                         <Link href="/" className="text-sm font-psemibold text-secondary">
                             Signup
                         </Link>

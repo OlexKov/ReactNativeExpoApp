@@ -4,7 +4,7 @@ import { Image, StyleSheet, Text, TouchableOpacity, View, } from 'react-native';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { useRouter } from 'expo-router';
 import { Confirmation } from '../modal';
-import { BASE_URL } from '@/constants/Url';
+import { IMAGE_200_URL } from '@/constants/Url';
 const noImage = require('../../assets/images/noimage.jpg');
 
 
@@ -24,18 +24,18 @@ export const CategoryCard: React.FC<CategoryCardProps> = ({ category, onDelete =
         setModalVisible(false)
     };
     return (
-        <View  style={[styles.card]}>
+        <View style={[styles.card]}>
             <Confirmation
                 isVisible={modalVisible}
                 title={`Ви впевненні що бажаєте видалити "${category.name}" ?`}
                 onConfirm={() => confirmAction(category.id)}
                 onCancel={() => setModalVisible(false)} />
             <Image
-                style={{width:"100%",height:"auto", aspectRatio: "14/10" }}
+                style={{ width: "100%", height: "auto", aspectRatio: "14/10" }}
                 resizeMode="cover"
-                source={category.image?{ uri: `${BASE_URL}/images/200_${category.image}` }:noImage} />
+                source={category.image ? { uri: IMAGE_200_URL + category.image } : noImage} />
             <View className=' flex flex-row justify-between'>
-                <TouchableOpacity className=' self-center mx-1'  onPress={() => setModalVisible(true)}>
+                <TouchableOpacity className=' self-center mx-1' onPress={() => setModalVisible(true)}>
                     <MaterialIcons name="delete-forever" size={24} color="red" />
                 </TouchableOpacity>
 
@@ -62,7 +62,7 @@ const styles = StyleSheet.create({
     cardText: {
         margin: 10,
         alignSelf: "center",
-        flexShrink:1
+        flexShrink: 1
 
     }
 });

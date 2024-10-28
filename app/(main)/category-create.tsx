@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import * as ImagePicker from 'expo-image-picker';
 const noImage = require('../../assets/images/noimage.jpg');
 import { showMessage } from "react-native-flash-message";
-import { BASE_URL} from "@/constants/Url";
+import { BASE_URL, IMAGE_200_URL } from "@/constants/Url";
 import { useAddCategoryMutation, useGetCategoryByIdQuery, useUpdateCategoryMutation } from "@/services/categoryService";
 
 
@@ -19,8 +19,7 @@ export default function CategoryCreate() {
     const router = useRouter();
     const { id } = useLocalSearchParams();
     const { control, handleSubmit, formState: { errors }, reset } = useForm<MyFormData>();
-    const { data: category, error } = useGetCategoryByIdQuery(id?.toString() || ' ', {skip: !id});
-
+    const { data: category, error } = useGetCategoryByIdQuery(id?.toString() || ' ', { skip: !id });
     const [image, setImage] = useState<string | undefined>(undefined);
     const [addCategory] = useAddCategoryMutation();
     const [updateCategory] = useUpdateCategoryMutation();
@@ -29,7 +28,7 @@ export default function CategoryCreate() {
         if (id && !error && category) {
             reset(({ name: category.name, description: category.description || '' }))
             if (category.image) {
-                setImage(`${BASE_URL}/images/200_${category.image}`)
+                setImage(IMAGE_200_URL + category.image)
             }
         }
     }, [category])

@@ -1,5 +1,5 @@
 import { Category } from "@/models/Category"
-import { createBaseQuery, getBaseQueryWithAuth } from "@/utils/createBaseQuery"
+import { getBaseQueryWithAuth } from "@/utils/createBaseQuery"
 import { createApi } from '@reduxjs/toolkit/query/react'
 
 
@@ -22,7 +22,7 @@ export const categoryApi = createApi({
                 return {
                     url: `get/${id}`,
                     method: 'GET',
-                    
+
                 }
             },
         }),
@@ -60,4 +60,4 @@ export const categoryApi = createApi({
     }),
 })
 
-export const { useGetAllCategoriesQuery, useGetCategoryByIdQuery ,useAddCategoryMutation,useUpdateCategoryMutation,useDeleteCategoryMutation} = categoryApi;
+export const { useGetAllCategoriesQuery, useGetCategoryByIdQuery, useAddCategoryMutation, useUpdateCategoryMutation, useDeleteCategoryMutation } = categoryApi;
