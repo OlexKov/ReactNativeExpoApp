@@ -71,7 +71,7 @@ const SignUp = () => {
                     }}>
 
                     <TouchableOpacity
-                        className=' mb-5 self-center mx-2 w-[200px] h-[200px] rounded-full overflow-hidden shadow-2xl shadow-current  '
+                        className=' mb-5 self-center mx-2 w-[200px] h-[200px] rounded-full overflow-hidden '
                         onPress={async () => setUser({ ...user, imageUri: await pickImage() })}>
                         <Image source={user.imageUri ? { uri: user.imageUri } : images.noimage} className=" object-cover w-full h-full" />
                     </TouchableOpacity>

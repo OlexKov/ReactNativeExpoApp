@@ -27,9 +27,12 @@ export const accountApi = createApi({
             query: (data) => {
                 const formData = generateUserCreateFormData(data)
                 return {
-                    url: 'create',
+                    url: 'SignUp',
                     method: 'POST',
                     body: formData,
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
                 }
             },
         }),

@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link,  useRouter } from 'expo-router'
+import { Link, useRouter } from 'expo-router'
 import { View, Text, ScrollView, Dimensions, SafeAreaView } from 'react-native'
 
 import { jwtParse } from '@/utils/jwtParser'
@@ -27,7 +27,7 @@ const SignIn = () => {
             router.replace('/(main)')
         } catch (error: any) {
             console.log(error)
-            alert(error.data)
+            alert(error.data.message ? error.data.message : "Unknown error")
         }
     }
 
