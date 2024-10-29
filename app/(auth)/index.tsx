@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import { Link, useRouter } from 'expo-router'
 import { View, Text, ScrollView, Dimensions, SafeAreaView } from 'react-native'
-
 import { jwtParse } from '@/utils/jwtParser'
 import { useAppDispatch } from '@/redux/store'
 import FormField from '@/components/form-fields'

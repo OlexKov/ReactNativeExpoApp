@@ -1,13 +1,11 @@
 import React, { useState } from 'react';
 import { ICategory } from '../../models/category/ICategory'
-import { Image, StyleSheet, Text, TouchableOpacity, View, } from 'react-native';
+import { Image, Text, TouchableOpacity, View, } from 'react-native';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { useRouter } from 'expo-router';
 import { Confirmation } from '../modal';
 import { IMAGE_200_URL } from '@/constants/Url';
 import images from '../../constants/images'
-
-
 
 interface CategoryCardProps {
     category: ICategory,
@@ -24,7 +22,7 @@ export const CategoryCard: React.FC<CategoryCardProps> = ({ category, onDelete =
         setModalVisible(false)
     };
     return (
-        <View style={{width:"47%"}} className='bg-gray-300 elevation-xl border border-gray-500  rounded-md overflow-hidden'>
+        <View style={{ width: "47%" }} className='bg-gray-300 elevation-xl border border-gray-500  rounded-md overflow-hidden'>
             <Confirmation
                 isVisible={modalVisible}
                 title={`Ви впевненні що бажаєте видалити "${category.name}" ?`}
