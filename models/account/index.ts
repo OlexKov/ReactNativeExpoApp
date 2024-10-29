@@ -22,7 +22,7 @@ export interface IUserCreate {
     lastName: string
     email: string
     password: string
-    image: File | null
+    imageUri: string | undefined
 }
 export interface ILoginResponse {
     token: string

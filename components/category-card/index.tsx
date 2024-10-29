@@ -1,16 +1,16 @@
 import React, { useState } from 'react';
-import { Category } from '../../models/Category'
+import { ICategory } from '../../models/category/ICategory'
 import { Image, StyleSheet, Text, TouchableOpacity, View, } from 'react-native';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { useRouter } from 'expo-router';
 import { Confirmation } from '../modal';
 import { IMAGE_200_URL } from '@/constants/Url';
-const noImage = require('../../assets/images/noimage.jpg');
+import images from '../../constants/images'
 
 
 
 interface CategoryCardProps {
-    category: Category,
+    category: ICategory,
     onDelete: Function | undefined
 }
 export const CategoryCard: React.FC<CategoryCardProps> = ({ category, onDelete = undefined }): React.JSX.Element => {
@@ -33,7 +33,7 @@ export const CategoryCard: React.FC<CategoryCardProps> = ({ category, onDelete =
             <Image
                 style={{ width: "100%", height: "auto", aspectRatio: "14/10" }}
                 resizeMode="cover"
-                source={category.image ? { uri: IMAGE_200_URL + category.image } : noImage} />
+                source={category.image ? { uri: IMAGE_200_URL + category.image } : images.noimage} />
             <View className=' flex flex-row justify-between'>
                 <TouchableOpacity className=' self-center mx-1' onPress={() => setModalVisible(true)}>
                     <MaterialIcons name="delete-forever" size={24} color="red" />

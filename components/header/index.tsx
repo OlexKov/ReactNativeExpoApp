@@ -25,7 +25,7 @@ export const CustomHeader: React.FC<CustomHeaderCardProps> = ({ title }): React.
     }
 
     useEffect(()=>{
-        if(!user){
+        if(!user && title !== "Новий користувач"){
             logout();
         }
     },[user])

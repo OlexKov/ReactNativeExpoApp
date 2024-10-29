@@ -2,12 +2,6 @@ import React from 'react'
 import { Link,  useRouter } from 'expo-router'
 import { View, Text, ScrollView, Dimensions, SafeAreaView } from 'react-native'
 
-//import { images } from '@/constants'
-//import FormField from '@/components/FormField'
-//import CustomButton from '@/components/CustomButton'
-// import { useLoginMutation } from '@/services/accountService'
-// import { setCredentials } from '@/redux/slices/userSlice'
-// import { IUser } from '@/interfaces/account'
 import { jwtParse } from '@/utils/jwtParser'
 import { useAppDispatch } from '@/redux/store'
 import FormField from '@/components/form-fields'
@@ -72,7 +66,7 @@ const SignIn = () => {
                     <CustomButton title="Sign In" handlePress={submit} containerStyles="mt-7 w-full bg-slate-500" isLoading={isLoading} />
                     <View className="flex justify-center pt-5 flex-row gap-2">
                         <Text className="text-sm text-gray-600 font-pregular">Don't have an account?</Text>
-                        <Link href="/" className="text-sm font-psemibold text-secondary">
+                        <Link href="/(auth)/sing-up" className="text-base font-psemibold text-secondary">
                             Signup
                         </Link>
                     </View>

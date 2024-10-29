@@ -1,14 +1,14 @@
-import { View, Text, TextInput, Button, ScrollView, Image } from "react-native";
+import { View, Text, TextInput, Button, ScrollView, Image, ImageSourcePropType, TouchableOpacity } from "react-native";
 import { StyleSheet } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useForm, Controller } from 'react-hook-form';
 import { useEffect, useState } from "react";
-import * as ImagePicker from 'expo-image-picker';
-const noImage = require('../../assets/images/noimage.jpg');
 import { showMessage } from "react-native-flash-message";
 import { IMAGE_200_URL } from "@/constants/Url";
 import { useAddCategoryMutation, useGetCategoryByIdQuery, useUpdateCategoryMutation } from "@/services/categoryService";
-
+import { ICategoryCreationModel } from "@/models/category/ICategoryCreationModel";
+import { pickImage } from "@/utils/imagePicker";
+import images from '../../constants/images'
 
 interface MyFormData {
     name: string,
@@ -34,25 +34,15 @@ export default function CategoryCreate() {
     }, [category])
 
     const onSubmit = async (data: MyFormData) => {
-
-        const formData = new FormData();
-        if (image) {
-            formData.append('imageFile', {
-                uri: image,
-                type: "image/" + image.split('.').pop(),
-                name: image.split('/').pop(),
-            } as any);
+        const creationModel: ICategoryCreationModel = {
+            id: id,
+            name: data.name,
+            description: data.description,
+            imageUri: image
         }
-        formData.append('name', data.name)
-        formData.append('description', data.description || '')
-        formData.append('id', id ? `${id}` : "0");
+
         try {
-            if (id) {
-                await updateCategory(formData).unwrap();
-            }
-            else {
-                await addCategory(formData).unwrap();
-            }
+            id ? await updateCategory(creationModel).unwrap() : await addCategory(creationModel).unwrap();
             showMessage({
                 message: "Категорія успішно збережена",
                 type: "success",
@@ -67,33 +57,14 @@ export default function CategoryCreate() {
         }
     };
 
-    const pickImage = async () => {
-        const permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
-        if (permissionResult.granted === false) {
-            alert("Permission to access camera roll is required!");
-            return;
-        }
-
-        let result = await ImagePicker.launchImageLibraryAsync({
-            mediaTypes: ImagePicker.MediaTypeOptions.Images,
-            allowsEditing: true,
-            quality: 1,
-        });
-
-        if (!result.canceled) {
-            setImage(result.assets[0].uri);
-        }
-    };
-
     return (
         <View style={{ height: "100%" }} className="flex flex-col justify-between">
             <ScrollView style={{ width: "90%", alignSelf: "center", marginTop: 10 }}>
-                <View style={{ alignSelf: "center", marginBottom: 20 }}>
-                    <View style={styles.imageContainer}>
-                        <Image source={image ? { uri: image } : noImage} style={styles.image} />
-                    </View>
-                    <Button title="Вибрати фото" onPress={pickImage} />
-                </View>
+                <TouchableOpacity
+                    className=' self-center mx-2 w-[200px] h-[200px] rounded-sm overflow-hidden my-5  shadow-2xl shadow-black ' 
+                    onPress={async () => setImage(await pickImage())}>
+                    <Image source={image ? { uri: image } : images.noimage} className=" object-cover w-full h-full rounded-sm" />
+                </TouchableOpacity>
                 <Controller
                     control={control}
                     name="name"
@@ -162,12 +133,6 @@ const styles = StyleSheet.create({
         elevation: 20,
         marginVertical: 10,
         alignSelf: 'center',
-    },
-    image: {
-        width: "100%",
-        height: '100%',
-        objectFit: "cover",
-        borderRadius: 10,
     },
 });
 

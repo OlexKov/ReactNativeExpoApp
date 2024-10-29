@@ -1,5 +1,7 @@
-import { Category } from "@/models/Category"
+import { ICategory } from "@/models/category/ICategory"
+import { ICategoryCreationModel } from "@/models/category/ICategoryCreationModel"
 import { getBaseQueryWithAuth } from "@/utils/createBaseQuery"
+import { generateCategoryFormData } from "@/utils/formDataGenerator"
 import { createApi } from '@reduxjs/toolkit/query/react'
 
 
@@ -9,7 +11,7 @@ export const categoryApi = createApi({
     tagTypes: ['Category'],
 
     endpoints: (builder) => ({
-        getAllCategories: builder.query<Category[], void>({
+        getAllCategories: builder.query<ICategory[], void>({
             query: () => {
                 return {
                     url: 'get',
@@ -18,7 +20,7 @@ export const categoryApi = createApi({
             },
             keepUnusedDataFor: 0,
         }),
-        getCategoryById: builder.query<Category, string>({
+        getCategoryById: builder.query<ICategory, string>({
             query: (id) => {
                 return {
                     url: `get/${id}`,
@@ -28,26 +30,30 @@ export const categoryApi = createApi({
             },
             keepUnusedDataFor: 0,
         }),
-        addCategory: builder.mutation<Category, FormData>({
-            query: (categoryForm) => ({
+        addCategory: builder.mutation<ICategory, ICategoryCreationModel>({
+            query: (categoryForm) => {
+                const formData = generateCategoryFormData(categoryForm)
+                return {
                 url: 'create',
                 method: 'POST',
-                body: categoryForm,
+                body: formData,
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }
-            }),
+            }},
         }),
-        updateCategory: builder.mutation<Category, FormData>({
-            query: (categoryForm) => ({
+        updateCategory: builder.mutation<ICategory, ICategoryCreationModel>({
+            query: (categoryForm) => {
+                const formData = generateCategoryFormData(categoryForm)
+                return {
                 url: 'update',
                 method: 'PUT',
-                body: categoryForm,
+                body: formData,
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }
 
-            }),
+            }},
         }),
 
         deleteCategory: builder.mutation<void, string>({
@@ -62,3 +68,7 @@ export const categoryApi = createApi({
 })
 
 export const { useGetAllCategoriesQuery, useGetCategoryByIdQuery, useAddCategoryMutation, useUpdateCategoryMutation, useDeleteCategoryMutation } = categoryApi;
+
+function getBaseQuery(arg0: string): any {
+    throw new Error("Function not implemented.")
+}

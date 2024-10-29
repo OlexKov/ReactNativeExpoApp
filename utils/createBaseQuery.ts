@@ -4,9 +4,13 @@ import { RootState } from '@/redux/store';
 import { BaseQueryApi, FetchArgs, fetchBaseQuery} from '@reduxjs/toolkit/query/react';
 import { removeFromSecureStore } from './secureStore';
 
-
 export const createBaseQuery = (endpoint: string) =>
     fetchBaseQuery({
+        baseUrl: `${BASE_API_URL}/${endpoint}/`
+    })
+
+export const getBaseQueryWithAuth = (endpoint: string)=>{
+    const baseQuery = fetchBaseQuery({
         baseUrl: `${BASE_API_URL}/${endpoint}/`,
         prepareHeaders: (headers, { getState }) => {
             const user = (getState() as RootState).user.user; 
@@ -16,11 +20,7 @@ export const createBaseQuery = (endpoint: string) =>
             }
             return headers;
         },
-    })
-
-
-export const getBaseQueryWithAuth = (endpoint: string)=>{
-    const baseQuery = createBaseQuery(endpoint);
+    });
     return async (args: string | FetchArgs, api: BaseQueryApi, extraOptions: {}) => {
         const result = await baseQuery(args, api, extraOptions);
         if (result.error && result.error.status === 401) {
