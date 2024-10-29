@@ -1,7 +1,5 @@
-import { View, Text, TextInput, Button, ScrollView, Image, TouchableOpacity } from "react-native";
-import { StyleSheet } from 'react-native';
+import { View, ScrollView, Image, TouchableOpacity } from "react-native";
 import { useLocalSearchParams, useRouter } from 'expo-router';
-import { useForm, Controller } from 'react-hook-form';
 import { useEffect, useState } from "react";
 import { showMessage } from "react-native-flash-message";
 import { IMAGE_200_URL } from "@/constants/Url";
@@ -10,6 +8,7 @@ import { ICategoryCreationModel } from "@/models/category/ICategoryCreationModel
 import { pickImage } from "@/utils/imagePicker";
 import images from '../../constants/images'
 import FormField from "@/components/form-fields";
+import CustomButton from "@/components/custom-button";
 
 const categoryInitial = {
     id: '',
@@ -132,7 +131,7 @@ export default function CategoryCreate() {
                 </View>
 
             </ScrollView>
-            <Button title="Зберегти" onPress={onSubmit} />
+            <CustomButton title="Зберегти" containerStyles="bg-blue-500 rounded-none" textStyles="text-white font-bold text-xl"  handlePress={onSubmit} />
         </View>
 
     );

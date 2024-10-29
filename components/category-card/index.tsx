@@ -31,10 +31,10 @@ export const CategoryCard: React.FC<CategoryCardProps> = ({ category, onDelete =
                 onConfirm={() => confirmAction(category.id)}
                 onCancel={() => setModalVisible(false)} />
             <Image
-                className='w-full aspect-video'
+                className='w-full aspect-[16/12]'
                 resizeMode="cover"
                 source={category.image ? { uri: IMAGE_200_URL + category.image } : images.noimage} />
-            <View className=' flex flex-row justify-between'>
+            <View className=' flex flex-row  justify-between'>
                 <TouchableOpacity className=' self-center mx-1' onPress={() => setModalVisible(true)}>
                     <MaterialIcons name="delete-forever" size={24} color="red" />
                 </TouchableOpacity>

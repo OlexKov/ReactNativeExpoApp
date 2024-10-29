@@ -5,6 +5,7 @@ import { useRouter } from "expo-router";
 import { showMessage } from "react-native-flash-message";
 import { useIsFocused } from "@react-navigation/native";
 import { useDeleteCategoryMutation, useGetAllCategoriesQuery } from "@/services/categoryService";
+import CustomButton from "@/components/custom-button";
 
 export default function Categories() {
   const { data: categories, error, isLoading, refetch } = useGetAllCategoriesQuery();
@@ -45,7 +46,7 @@ export default function Categories() {
             {categories?.map(x => <CategoryCard onDelete={onDelete} key={x.id} category={x} />)}
           </View>
         </ScrollView>
-        <Button title="Додати категорію" onPress={handlePress} />
+        <CustomButton title="Додати категорію" containerStyles="bg-blue-500 rounded-none" textStyles="text-white font-bold text-xl" handlePress={handlePress} />
       </View>
       : <ActivityIndicator className=" mx-auto my-auto" size="large" color="#f4511e" />}
     </>
