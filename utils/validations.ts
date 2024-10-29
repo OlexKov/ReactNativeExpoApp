@@ -17,13 +17,13 @@ export const validate = (value: string, rules: FormFieldRule[] | undefined): str
                     error = !new RegExp(rule.value).test(value);
                     break;
                 case 'min':
-                    error = rule.value && value.length < rule.value;
+                    error = rule.value && value && value.length < rule.value;
                     break;
                 case 'max':
-                    error = rule.value && value.length > rule.value;
+                    error = rule.value && value && value.length > rule.value;
                     break;
                 case 'equals':
-                    error = rule.value && value !== rule.value;
+                    error = rule.value && value && value !== rule.value;
                     break;
                 default:
                     break;

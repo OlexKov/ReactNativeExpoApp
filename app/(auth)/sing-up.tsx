@@ -13,8 +13,6 @@ import React, { useState } from "react";
 import { Dimensions, SafeAreaView, ScrollView, View, Image, TouchableOpacity } from "react-native";
 import { showMessage } from "react-native-flash-message";
 
-
-
 const userInitialState: IUserCreate = {
     firstName: '',
     lastName: '',
@@ -26,6 +24,10 @@ const userInitialState: IUserCreate = {
 const SignUp = () => {
     const [user, setUser] = useState<IUserCreate>(userInitialState)
     const [errors, setErrors] = useState<string[]>([]);
+    const [confirmPassword, setConfirmPassword] = React.useState('')
+    const router = useRouter();
+    const dispatch = useAppDispatch()
+    const [register, { isLoading }] = useRegisterMutation();
 
     const validationChange = (isValid: boolean, fieldKey: string) => {
         if (isValid && errors.includes(fieldKey)) {
@@ -35,12 +37,6 @@ const SignUp = () => {
             setErrors(state => [...state, fieldKey])
         }
     };
-
-
-    const [confirmPassword, setConfirmPassword] = React.useState('')
-    const router = useRouter();
-    const dispatch = useAppDispatch()
-    const [register, { isLoading }] = useRegisterMutation();
 
     const submit = async () => {
         if (errors.length !== 0) {
@@ -57,7 +53,7 @@ const SignUp = () => {
             router.replace('/(main)')
         } catch (error: any) {
             console.log(error)
-            alert(error.data)
+            alert(error.data.message ? error.data.message : "Unknown error")
         }
     }
 
@@ -65,7 +61,7 @@ const SignUp = () => {
         <SafeAreaView >
             <ScrollView className="bg-primary h-full">
                 <View
-                    className="w-full flex  items-center h-full px-4  py-7"
+                    className="w-full flex gap-2 items-center h-full px-4  py-7"
                     style={{
                         minHeight: Dimensions.get('window').height - 100,
                     }}>
@@ -81,7 +77,6 @@ const SignUp = () => {
                         title="Email"
                         value={user.email}
                         handleChangeText={(e) => setUser({ ...user, email: e })}
-                        otherStyles="mb-3"
                         keyboardType="email-address"
                         rules={[
                             {
@@ -102,7 +97,6 @@ const SignUp = () => {
                         title="Password"
                         value={user.password}
                         handleChangeText={(e) => setUser({ ...user, password: e })}
-                        otherStyles="mb-3"
                         onValidationChange={validationChange}
                         rules={[
                             {
@@ -137,7 +131,6 @@ const SignUp = () => {
                         title="Confirm password"
                         value={confirmPassword}
                         handleChangeText={(e) => setConfirmPassword(e)}
-                        otherStyles="mb-3"
                         onValidationChange={validationChange}
                         rules={[
                             {
@@ -158,7 +151,6 @@ const SignUp = () => {
                         title="Firstname"
                         value={user.firstName}
                         handleChangeText={(e) => setUser({ ...user, firstName: e })}
-                        otherStyles="mb-3"
                         onValidationChange={validationChange}
                         rules={[
                             {
@@ -184,7 +176,6 @@ const SignUp = () => {
                         title="Lastname"
                         value={user.lastName}
                         handleChangeText={(e) => setUser({ ...user, lastName: e })}
-                        otherStyles="mb-3"
                         onValidationChange={validationChange}
                         rules={[
                             {

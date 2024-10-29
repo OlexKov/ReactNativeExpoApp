@@ -24,14 +24,14 @@ export const CategoryCard: React.FC<CategoryCardProps> = ({ category, onDelete =
         setModalVisible(false)
     };
     return (
-        <View style={[styles.card]}>
+        <View style={{width:"47%"}} className='bg-gray-300 elevation-xl border border-gray-500  rounded-md overflow-hidden'>
             <Confirmation
                 isVisible={modalVisible}
                 title={`Ви впевненні що бажаєте видалити "${category.name}" ?`}
                 onConfirm={() => confirmAction(category.id)}
                 onCancel={() => setModalVisible(false)} />
             <Image
-                style={{ width: "100%", height: "auto", aspectRatio: "14/10" }}
+                className='w-full aspect-video'
                 resizeMode="cover"
                 source={category.image ? { uri: IMAGE_200_URL + category.image } : images.noimage} />
             <View className=' flex flex-row justify-between'>
@@ -39,7 +39,7 @@ export const CategoryCard: React.FC<CategoryCardProps> = ({ category, onDelete =
                     <MaterialIcons name="delete-forever" size={24} color="red" />
                 </TouchableOpacity>
 
-                <Text style={[styles.cardText]}>{category.name}</Text>
+                <Text className='self-center m-3 flex-shrink'>{category.name}</Text>
                 <TouchableOpacity className=' self-center mx-2' onPress={() => router.push(`/category-create?id=${category.id}`)}>
                     <MaterialIcons name="edit-square" size={24} color="green" />
                 </TouchableOpacity>
@@ -47,22 +47,3 @@ export const CategoryCard: React.FC<CategoryCardProps> = ({ category, onDelete =
         </View>
     );
 }
-
-const styles = StyleSheet.create({
-    card: {
-        width: "47%",
-        backgroundColor: "lightgray",
-        elevation: 5,
-        borderWidth: 1,
-        borderColor: "gray",
-        borderRadius: 6,
-        overflow: "hidden",
-
-    },
-    cardText: {
-        margin: 10,
-        alignSelf: "center",
-        flexShrink: 1
-
-    }
-});

@@ -1,4 +1,4 @@
-import { View, Text, TextInput, Button, ScrollView, Image, ImageSourcePropType, TouchableOpacity } from "react-native";
+import { View, Text, TextInput, Button, ScrollView, Image, TouchableOpacity } from "react-native";
 import { StyleSheet } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useForm, Controller } from 'react-hook-form';
@@ -9,40 +9,54 @@ import { useAddCategoryMutation, useGetCategoryByIdQuery, useUpdateCategoryMutat
 import { ICategoryCreationModel } from "@/models/category/ICategoryCreationModel";
 import { pickImage } from "@/utils/imagePicker";
 import images from '../../constants/images'
+import FormField from "@/components/form-fields";
 
-interface MyFormData {
-    name: string,
-    description: string,
+const categoryInitial = {
+    id: '',
+    name: '',
+    description: undefined,
+    imageUri: undefined
 }
 
 export default function CategoryCreate() {
     const router = useRouter();
     const { id } = useLocalSearchParams();
-    const { control, handleSubmit, formState: { errors }, reset } = useForm<MyFormData>();
+    const [errors, setErrors] = useState<string[]>([]);
+    const [categoryData, setCategoryData] = useState<ICategoryCreationModel>(categoryInitial)
     const { data: category, error } = useGetCategoryByIdQuery(id?.toString() || ' ', { skip: !id });
-    const [image, setImage] = useState<string | undefined>(undefined);
     const [addCategory] = useAddCategoryMutation();
     const [updateCategory] = useUpdateCategoryMutation();
 
     useEffect(() => {
         if (id && !error && category) {
-            reset(({ name: category.name, description: category.description || '' }))
-            if (category.image) {
-                setImage(IMAGE_200_URL + category.image)
-            }
+            setCategoryData({
+                name: category.name,
+                description: category.description,
+                id: id,
+                imageUri: category.image? IMAGE_200_URL + category.image:''
+            })
         }
     }, [category])
 
-    const onSubmit = async (data: MyFormData) => {
-        const creationModel: ICategoryCreationModel = {
-            id: id,
-            name: data.name,
-            description: data.description,
-            imageUri: image
+    const validationChange = (isValid: boolean, fieldKey: string) => {
+        if (isValid && errors.includes(fieldKey)) {
+            setErrors(errors.filter(x => x !== fieldKey))
         }
+        else if (!isValid && !errors.includes(fieldKey)) {
+            setErrors(state => [...state, fieldKey])
+        }
+    };
 
+    const onSubmit = async () => {
+        if (errors.length !== 0) {
+            showMessage({
+                message: "Правильно заповніть всі поля",
+                type: "danger",
+            });
+            return;
+        }
         try {
-            id ? await updateCategory(creationModel).unwrap() : await addCategory(creationModel).unwrap();
+            id ? await updateCategory(categoryData).unwrap() : await addCategory(categoryData).unwrap();
             showMessage({
                 message: "Категорія успішно збережена",
                 type: "success",
@@ -58,82 +72,72 @@ export default function CategoryCreate() {
     };
 
     return (
-        <View style={{ height: "100%" }} className="flex flex-col justify-between">
-            <ScrollView style={{ width: "90%", alignSelf: "center", marginTop: 10 }}>
-                <TouchableOpacity
-                    className=' self-center mx-2 w-[200px] h-[200px] rounded-sm overflow-hidden my-5  shadow-2xl shadow-black ' 
-                    onPress={async () => setImage(await pickImage())}>
-                    <Image source={image ? { uri: image } : images.noimage} className=" object-cover w-full h-full rounded-sm" />
-                </TouchableOpacity>
-                <Controller
-                    control={control}
-                    name="name"
-                    render={({ field: { onChange, onBlur, value } }) => (
-                        <TextInput
-                            style={styles.input}
-                            placeholder="Ім'я категорії"
-                            onChangeText={onChange}
-                            onBlur={onBlur}
-                            value={typeof value === 'string' ? value : ''}
-                        />
-                    )}
+        <View className="flex flex-col justify-between  h-full ">
+            <ScrollView >
+                <View className=" flex gap-y-2 self-center  m-5" >
+                    <TouchableOpacity
+                        className=' self-center mx-2 w-[200px] h-[200px] rounded-sm overflow-hidden my-5  shadow-2xl shadow-black '
+                        onPress={async () => setCategoryData({ ...categoryData, imageUri: await pickImage() })}>
+                        <Image source={categoryData.imageUri ? { uri: categoryData.imageUri } : images.noimage} className=" object-cover w-full h-full rounded-sm" />
+                    </TouchableOpacity>
 
-                    rules={{ required: "Ім'я обов'язкове..." }}
-                />
-                {errors.name && <Text style={styles.errorText}>{errors.name?.message}</Text>}
+                    <FormField
+                        placeholder="Введіть назву категрії"
+                        title="Назва"
+                        value={categoryData.name}
+                        handleChangeText={(e) => setCategoryData({ ...categoryData, name: e })}
+                         onValidationChange={validationChange}
+                        rules={[
+                            {
+                                rule: 'required',
+                                message: 'Назва обовязкова'
+                            },
+                            {
+                                rule: 'min',
+                                value: 2,
+                                message: 'Назва повинна містити не менше я 2 символи '
+                            },
+                            {
+                                rule: 'max',
+                                value: 100,
+                                message: 'Назва повинна містити не більше я 40 символів '
+                            }
+                        ]}
 
-                <Controller
-                    control={control}
-                    name="description"
-                    render={({ field: { onChange, onBlur, value } }) => (
-                        <TextInput
-                            maxLength={4000}
-                            multiline={true}
-                            numberOfLines={5}
-                            textAlignVertical="top"
-                            style={styles.inputArea}
-                            placeholder="Опис"
-                            onChangeText={onChange}
-                            onBlur={onBlur}
-                            value={typeof value === 'string' ? value : ''}
-                        />
-                    )}
-                />
+                    />
+                    <FormField
+                        placeholder="Введіть опис категрії якщо потрібно"
+                        title="Опис"
+                        value={categoryData.description || ''}
+                        handleChangeText={(e) => setCategoryData({ ...categoryData, description: e })}
+                        otherStyles=" min-h-[100px]"
+                        onValidationChange={validationChange}
+                        multiline={true}
+                        numberOfLines={5}
+                        textAlignVertical="top"
+                        rules={[
+                            {
+                                rule: 'min',
+                                value: 10,
+                                message: 'Опис повиннен містити не менше я 10 символів'
+                            },
+                            {
+                                rule: 'max',
+                                value: 3000,
+                                message: 'Назва повинна містити не більше я 3000 символів '
+                            }
+                        ]}
+
+                    />
+                </View>
+
             </ScrollView>
-            <Button title="Зберегти" onPress={handleSubmit(onSubmit)} />
+            <Button title="Зберегти" onPress={onSubmit} />
         </View>
 
     );
 }
 
-const styles = StyleSheet.create({
-    input: {
-        height: 40,
-        borderColor: 'gray',
-        borderWidth: 1,
-        marginBottom: 10,
-        padding: 8,
-        borderRadius: 4,
-    },
-    inputArea: {
-        borderColor: 'gray',
-        borderWidth: 1,
-        marginBottom: 10,
-        padding: 8,
-        borderRadius: 4,
-    },
-    errorText: {
-        color: 'red',
-        marginBottom: 10,
-    },
-    imageContainer: {
-        width: 200,
-        height: 200,
-        borderRadius: 10,
-        elevation: 20,
-        marginVertical: 10,
-        alignSelf: 'center',
-    },
-});
+
 
 

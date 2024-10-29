@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Link, useRouter } from 'expo-router'
 import { View, Text, ScrollView, Dimensions, SafeAreaView } from 'react-native'
 
@@ -7,21 +7,20 @@ import { useAppDispatch } from '@/redux/store'
 import FormField from '@/components/form-fields'
 import CustomButton from '@/components/custom-button'
 import { useLoginMutation } from '@/services/accountService'
-import { IUser } from '@/models/account'
+import { ILogin, IUser } from '@/models/account'
 import { setCredentials } from '@/redux/clices/userSlice'
 import { saveToSecureStore } from '@/utils/secureStore'
 
 
 const SignIn = () => {
-    const [email, setEmail] = React.useState('')
-    const [password, setPassword] = React.useState('')
+    const [loginData , setLoginData] = useState<ILogin>({email:'',password:''})
     const router = useRouter();
     const dispatch = useAppDispatch()
     const [login, { isLoading }] = useLoginMutation()
 
     const submit = async () => {
         try {
-            const res = await login({ email, password }).unwrap()
+            const res = await login(loginData).unwrap()
             await saveToSecureStore('authToken', res.token)
             dispatch(setCredentials({ user: jwtParse(res.token) as IUser, token: res.token }))
             router.replace('/(main)')
@@ -34,8 +33,7 @@ const SignIn = () => {
     return (
         <SafeAreaView className="bg-primary h-full">
             <ScrollView>
-                <View
-                    className="w-full flex justify-center items-center h-full px-4 my-6"
+                <View className="w-full gap-2 flex justify-center items-center h-full px-4 my-6"
                     style={{
                         minHeight: Dimensions.get('window').height - 100,
                     }}>
@@ -49,24 +47,22 @@ const SignIn = () => {
                     <FormField
                         placeholder="Enter your email"
                         title="Email"
-                        value={email}
-                        handleChangeText={(e) => setEmail(e)}
-                        otherStyles="mt-7"
+                        value={loginData.email}
+                        handleChangeText={(e) => setLoginData({...loginData,email:e})}
                         keyboardType="email-address"
                     />
 
                     <FormField
                         placeholder="Enter your password"
                         title="Password"
-                        value={password}
-                        handleChangeText={(e) => setPassword(e)}
-                        otherStyles="mt-7"
+                        value={loginData.password}
+                        handleChangeText={(e) => setLoginData({...loginData,password:e})}
                     />
 
                     <CustomButton title="Sign In" handlePress={submit} containerStyles="mt-7 w-full bg-slate-500" isLoading={isLoading} />
-                    <View className="flex justify-center pt-5 flex-row gap-2">
+                    <View className="flex justify-center items-center pt-5 flex-row gap-2">
                         <Text className="text-sm text-gray-600 font-pregular">Don't have an account?</Text>
-                        <Link href="/(auth)/sing-up" className="text-base font-psemibold text-secondary">
+                        <Link href="/(auth)/sing-up" className="text-base  font-psemibold text-secondary">
                             Signup
                         </Link>
                     </View>

@@ -38,10 +38,9 @@ const FormField: React.FC<FormFieldProps> = ({ title, rules, value, placeholder,
     }
 
     return (
-        <View className={`space-y-2 ${otherStyles}`}>
+        <View className={`h-16 w-full my-5 ${otherStyles}`}>
             <Text className="text-base text-gray-600 font-pmedium">{title}</Text>
-
-            <View className={`w-full h-16 px-4 bg-black-100 rounded-2xl border-2 ${errorMessage ? 'border-red-700' : 'border-black-200'}  focus:border-secondary flex flex-row items-center`}>
+            <View className={`w-full h-full px-4 bg-gray-100 rounded-xl border-2 ${errorMessage ? 'border-red-500' : 'border-gray-300'}  focus:border-secondary flex flex-row items-center`}>
                 <TextInput
                     className="flex-1 text-slate-500 font-psemibold text-base"
                     value={value}
