@@ -46,7 +46,7 @@ export default function Categories() {
             {categories?.map(x => <CategoryCard onDelete={onDelete} key={x.id} category={x} />)}
           </View>
         </ScrollView>
-        <CustomButton title="Додати категорію" containerStyles="bg-blue-500 rounded-none" textStyles="text-white font-bold text-xl" handlePress={handlePress} />
+        <CustomButton title="Додати категорію" containerStyles="bg-blue-500" textStyles="text-white font-bold text-xl" handlePress={handlePress} />
       </View>
       : <ActivityIndicator className=" mx-auto my-auto" size="large" color="#f4511e" />}
     </>

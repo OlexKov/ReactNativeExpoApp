@@ -58,7 +58,7 @@ const SignIn = () => {
                         handleChangeText={(e) => setLoginData({...loginData,password:e})}
                     />
 
-                    <CustomButton title="Sign In" handlePress={submit} containerStyles="mt-7 w-full bg-slate-500" isLoading={isLoading} />
+                    <CustomButton title="Sign In" handlePress={submit} containerStyles="mt-7 w-full bg-slate-500 rounded-xl" isLoading={isLoading} />
                     <View className="flex justify-center items-center pt-5 flex-row gap-2">
                         <Text className="text-sm text-gray-600 font-pregular">Don't have an account?</Text>
                         <Link href="/(auth)/sing-up" className="text-base  font-psemibold text-secondary">

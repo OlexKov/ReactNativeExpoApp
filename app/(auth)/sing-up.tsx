@@ -196,7 +196,7 @@ const SignUp = () => {
 
                     />
 
-                    <CustomButton title="Register" handlePress={submit} containerStyles="mt-7 w-full bg-slate-500" isLoading={isLoading} />
+                    <CustomButton title="Register" handlePress={submit} containerStyles="mt-7 w-full bg-slate-500 rounded-xl" isLoading={isLoading} />
                 </View>
             </ScrollView>
         </SafeAreaView>

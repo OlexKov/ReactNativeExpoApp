@@ -131,7 +131,7 @@ export default function CategoryCreate() {
                 </View>
 
             </ScrollView>
-            <CustomButton title="Зберегти" containerStyles="bg-blue-500 rounded-none" textStyles="text-white font-bold text-xl"  handlePress={onSubmit} />
+            <CustomButton title="Зберегти" containerStyles="bg-blue-500" textStyles="text-white font-bold text-xl"  handlePress={onSubmit} />
         </View>
 
     );
