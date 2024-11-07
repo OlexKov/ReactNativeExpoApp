@@ -5,6 +5,7 @@ export interface IUser {
     email: string
     photo: string
     exp: number
+    roles:string[]
 }
 
 export interface IUserState {

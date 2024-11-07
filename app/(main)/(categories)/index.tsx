@@ -8,7 +8,7 @@ import { useDeleteCategoryMutation, useGetAllCategoriesQuery } from "@/services/
 import CustomButton from "@/components/custom-button";
 
 export default function Categories() {
-  const { data: categories, error, isLoading, refetch } = useGetAllCategoriesQuery();
+  const { data: categories, isLoading, refetch } = useGetAllCategoriesQuery();
   const [deleteCategory] = useDeleteCategoryMutation();
   const router = useRouter();
   const isFocused = useIsFocused();

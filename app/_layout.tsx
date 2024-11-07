@@ -6,9 +6,10 @@ import FlashMessage from "react-native-flash-message";
 import { store } from '@/redux/store'
 import { Provider } from "react-redux";
 
-
+export const unstable_settings = {
+  initialRouteName: "(main)/(products)/index",
+};
 export default function RootLayout() {
-  
   return (
     <Provider store={store}>
         <Stack>
